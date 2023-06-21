@@ -23,6 +23,9 @@ int error()
     exit(-1);
 }
 
+std::string devicePath = "/dev/ttyACM0";
+std::string rfeConfig = "LimeRFE_8001P_board_on.ini";
+
 int printHelp()
 {
     printf("--help, -h\t\tPrint help.\n");
@@ -31,7 +34,6 @@ int printHelp()
     return 0;
 }
 
-std::string devicePath = "/dev/ttyACM0";
 
 enum CMDArgument
 {
