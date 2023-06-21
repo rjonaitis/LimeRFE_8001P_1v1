@@ -8,3 +8,5 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 add_subdirectory(LimeRFE_8001P)
 option(BUILD_SHARED_LIBS "Build the shared library" ON)
+
+add_subdirectory(cli)
