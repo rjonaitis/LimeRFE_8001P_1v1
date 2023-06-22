@@ -24,7 +24,7 @@ int error()
 }
 
 std::string devicePath = "/dev/ttyACM0";
-std::string rfeConfig = "LimeRFE_8001P_board_on.ini";
+std::string rfeConfig = "LimeRFE_8001P_board_off.ini";
 
 int printHelp()
 {
@@ -69,7 +69,7 @@ int main(int argc, char** argv)
     //limerfe_8001p_boardState state;
     int result = 0;
  
-    limerfe_8001p = LimeRFE_8001P_Open("/dev/ttyACM0", nullptr);
+    limerfe_8001p = LimeRFE_8001P_Open(devicePath.c_str(), nullptr);
     //limerfe_8001p = LimeRFE_8001P_FindAndOpen(nullptr);
 
     if (limerfe_8001p == nullptr) {
@@ -81,31 +81,7 @@ int main(int argc, char** argv)
     }
 
     printf("Disabling LimeRFE_8001P board ...\n");
-    LimeRFE_8001P_LoadConfig(limerfe_8001p, "LimeRFE_8001P_board_off.ini");
-
-//---- Start Channel 1 -----//
-    printf("Selecting channel 1\n");
-    result = LimeRFE_8001P_Select_Channel(limerfe_8001p, LimeRFE_8001P_CH1);
-
-    printf("Disable LMS8001...\n");
-    LimeRFE_8001P_LMS8_Enable(limerfe_8001p, 0);
-     
-    printf("Disable SC1905...\n");
-    LimeRFE_8001P_SC1905_Enable(limerfe_8001p, LimeRFE_8001P_CH1, 0); // Enable=1; Disable=0
-
-//---- End Channel 1 -----//
-
-//---- Start Channel 2 -----//
-   printf("Selecting channel 2\n");
-    result = LimeRFE_8001P_Select_Channel(limerfe_8001p, LimeRFE_8001P_CH2);
-
-    printf("Disable LMS8001...\n");
-    LimeRFE_8001P_LMS8_Enable(limerfe_8001p, 0);
-     
-    printf("Disable SC1905...\n");
-    LimeRFE_8001P_SC1905_Enable(limerfe_8001p, LimeRFE_8001P_CH2, 0); // Enable=1; Disable=0
-
-//---- End Channel 2 -----//
+    LimeRFE_8001P_LoadConfig(limerfe_8001p, rfeConfig.c_str());
 
     printf("Finished\n");
 
