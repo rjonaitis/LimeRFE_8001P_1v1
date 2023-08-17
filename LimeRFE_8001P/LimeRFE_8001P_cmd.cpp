@@ -2068,10 +2068,8 @@ int Limerfe_8001p_spi_read_buffer(lms_device_t *lms, unsigned char *c, int size)
 	}
 }
 
-int Limerfe_8001p_ADF4002_config(lms_device_t *lms, LimeRFE_8001P_COM com, double freq, int & rcount, int & ncount)
+int Limerfe_8001p_ADF4002_configRefVco(lms_device_t *lms, LimeRFE_8001P_COM com, double refClk, double FVco, int& rcount, int& ncount)
 {
-
-	
 	LMScomms* lms8controlPort = new LMScomms();
 	cout << "LMS8Suite: handle =" << com.hComm << std::endl;  // B.J.
 	lms8controlPort->InheritCOM(com.hComm);
@@ -2080,16 +2078,15 @@ int Limerfe_8001p_ADF4002_config(lms_device_t *lms, LimeRFE_8001P_COM com, doubl
 
 	lms8_ADF4002 * adfModule = new lms8_ADF4002();
 	adfModule->Initialize(lms8controlPort);
-	
+
 	unsigned char data[12];
 	rcount = 0;
 	ncount = 0;
-	
+
 	adfModule->SetDefaults();
-    adfModule->SetFrefFvco(freq/1e6, 40.0, rcount, ncount);
+    adfModule->SetFrefFvco(refClk/1e6, FVco/1e6, rcount, ncount);
 	adfModule->GetConfig(data);
 
-	
 	LMScomms::GenericPacket pkt;
 	pkt.cmd = CMD_ADF4002_WR;
 	pkt.outBuffer.resize(12, 0);
@@ -2099,7 +2096,14 @@ int Limerfe_8001p_ADF4002_config(lms_device_t *lms, LimeRFE_8001P_COM com, doubl
 	if (status != LMScomms::TRANSFER_SUCCESS || pkt.status != STATUS_COMPLETED_CMD)
 	{
 		perror("ADF configuration failed");
+		return -1;
 	}
+	return 0;
+}
+
+int Limerfe_8001p_ADF4002_config(lms_device_t *lms, LimeRFE_8001P_COM com, double freq, int & rcount, int & ncount)
+{
+	return Limerfe_8001p_ADF4002_configRefVco(lms, com, freq, 40.0, rcount, ncount);
 }
 
 

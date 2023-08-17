@@ -29,6 +29,8 @@ std::string lms8ch1Config = "LimeRFE_8001P_IC1.ini";
 std::string lms8ch2Config = "LimeRFE_8001P_IC2.ini";
 double lo1 = 4.9;
 double lo2 = 4.9;
+double adf_refclk = 30.72;
+double adf_fvco = 0;
 
 int printHelp()
 {
@@ -39,6 +41,8 @@ int printHelp()
     printf("--rfe-config\t\tConfig file for channel 1. default:%s\n", rfeConfig.c_str());
     printf("--lo-ch1\t\tChannel 1 LO in GHz. default:%g\n", lo1);
     printf("--lo-ch2\t\tChannel 2 LO in GHz. default:%g\n", lo2);
+    printf("--adf-refclk\t\tADF4002 Reference clock in MHz, default:%g\n", adf_refclk);
+    printf("--adf-fvco\t\tADF4002 VCO output frequency in MHz\n");
     return 0;
 }
 
@@ -49,6 +53,8 @@ enum CMDArgument
     LMS8_CONFIG_CH2,
     LO_CH1,
     LO_CH2,
+    ADF4002_REFCLK,
+    ADF4002_FVCO
 };
 
 int main(int argc, char** argv)
@@ -61,6 +67,8 @@ int main(int argc, char** argv)
         {"lms8-config-ch2", required_argument, 0, LMS8_CONFIG_CH2},
         {"lo-ch1", required_argument, 0, LO_CH1},
         {"lo-ch2", required_argument, 0, LO_CH2},
+        {"adf-refclk", required_argument, 0, ADF4002_REFCLK},
+        {"adf-fvco", required_argument, 0, ADF4002_FVCO},
         {0, 0, 0,  0}
     };
 
@@ -89,6 +97,12 @@ int main(int argc, char** argv)
         case LO_CH2:
             lo2 = std::stod(optarg);
             break;
+        case ADF4002_REFCLK:
+            adf_refclk = std::stod(optarg);
+            break;
+        case ADF4002_FVCO:
+            adf_fvco = std::stod(optarg);
+            break;
         }
     }
 
@@ -109,6 +123,10 @@ int main(int argc, char** argv)
 
     printf("Resetting LimeRFE_8001P board ...\n");
     LimeRFE_8001P_Reset(limerfe_8001p);
+
+    int rout, nout;
+    if (adf_refclk != 0 && adf_fvco != 0)
+        LimeRFE_8001P_ADF4002_ConfigRefVco(limerfe_8001p, adf_refclk, adf_fvco, &rout, &nout);
 
     printf("Loading LimeRFE_8001P board ini file ...\n");
     LimeRFE_8001P_LoadConfig(limerfe_8001p, rfeConfig.c_str());

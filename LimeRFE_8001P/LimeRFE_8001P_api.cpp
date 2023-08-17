@@ -284,6 +284,17 @@ extern "C" API_EXPORT int LimeRFE_8001P_GetState(limerfe_8001p_dev_t *limerfe_80
     return result;
 }
 
+extern "C" API_EXPORT int LimeRFE_8001P_ADF4002_ConfigRefVco(limerfe_8001p_dev_t  *limerfe_8001p, double refClk, double FVco, int *rcount, int *ncount)
+{
+    int result = 0;
+    if (!limerfe_8001p)
+        return -1;
+    auto *dev = static_cast<LimeRFE_8001P_Device *>(limerfe_8001p);
+
+    result = Limerfe_8001p_ADF4002_configRefVco(dev->sdrDevice, dev->com, refClk, FVco, *rcount, *ncount);
+    return result;
+}
+
 extern "C" API_EXPORT int LimeRFE_8001P_ADF4002_Config(limerfe_8001p_dev_t *limerfe_8001p, double freq, int *rcount, int *ncount)
 {
     int result = 0;

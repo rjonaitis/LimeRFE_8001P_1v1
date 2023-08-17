@@ -875,6 +875,7 @@ extern "C"
 	API_EXPORT int LimeRFE_8001P_SPI_write_buffer(lms_device_t *lms, unsigned char *c, int size);
 	API_EXPORT int LimeRFE_8001P_SPI_read_buffer(lms_device_t *lms, unsigned char *c, int size);
 	API_EXPORT int LimeRFE_8001P_ADF4002_Config(limerfe_8001p_dev_t  *LimeRFE_8001P, double freq, int *rcount, int *ncount);
+	API_EXPORT int LimeRFE_8001P_ADF4002_ConfigRefVco(limerfe_8001p_dev_t  *LimeRFE_8001P, double refClk, double FVco, int *rcount, int *ncount);
 
 #ifdef __cplusplus
 } // extern "C"
