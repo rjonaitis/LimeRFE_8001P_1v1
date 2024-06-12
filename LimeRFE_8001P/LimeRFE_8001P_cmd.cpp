@@ -2084,7 +2084,7 @@ int Limerfe_8001p_ADF4002_configRefVco(lms_device_t *lms, LimeRFE_8001P_COM com,
 	ncount = 0;
 
 	adfModule->SetDefaults();
-    adfModule->SetFrefFvco(refClk/1e6, FVco/1e6, rcount, ncount);
+    adfModule->SetFrefFvco(refClk, FVco, rcount, ncount);
 	adfModule->GetConfig(data);
 
 	LMScomms::GenericPacket pkt;
