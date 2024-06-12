@@ -1759,6 +1759,7 @@ void LimeRFE_8001P_wxgui::SC1905_Set_Cal_Param(int freq)
 	userCancel = false;
 
 	std::thread *maxPwrCalOngoingThread = new std::thread(&LimeRFE_8001P_wxgui::maxPwrCalOngoingThreadFunction, this, freq, std::ref(userCancel), &cancelDialog);
+	maxPwrCalOngoingThread->detach();
 
 	int modalResult = cancelDialog.ShowModal();
 	if (modalResult == -1)
