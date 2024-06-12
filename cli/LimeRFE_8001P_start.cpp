@@ -29,8 +29,8 @@ std::string lms8ch1Config = "LimeRFE_8001P_IC1.ini";
 std::string lms8ch2Config = "LimeRFE_8001P_IC2.ini";
 double lo1 = 4.9;
 double lo2 = 4.9;
-double adf_refclk = 30.72;
-double adf_fvco = 0;
+double adf_refclk = 10;
+double adf_fvco = 30.72;
 
 int printHelp()
 {

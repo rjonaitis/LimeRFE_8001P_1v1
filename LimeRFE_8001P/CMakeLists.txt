@@ -59,7 +59,7 @@ set(BINARY_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
 
 set_target_properties(LimeRFE_8001P PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BINARY_OUTPUT_DIR})
 
-LINK_DIRECTORIES(/usr/local/lib)
+# LINK_DIRECTORIES(/usr/local/lib)
 
 target_link_libraries(
     LimeRFE_8001PAPI
@@ -77,9 +77,9 @@ target_link_libraries(
 )
 ## insert LimeSuite when SPI is used
 
-target_compile_definitions(LimeRFE_8001P PRIVATE WIN32_LEAN_AND_MEAN)
 
 if (MSVC)
+    target_compile_definitions(LimeRFE_8001P PRIVATE WIN32_LEAN_AND_MEAN)
     set_property(TARGET LimeRFE_8001P APPEND PROPERTY LINK_FLAGS /SUBSYSTEM:WINDOWS)
 endif(MSVC)
 
