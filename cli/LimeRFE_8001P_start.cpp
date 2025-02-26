@@ -128,8 +128,14 @@ int main(int argc, char** argv)
     if (adf_refclk != 0 && adf_fvco != 0)
         LimeRFE_8001P_ADF4002_ConfigRefVco(limerfe_8001p, adf_refclk, adf_fvco, &rout, &nout);
 
+    printf("Sleep\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
     printf("Loading LimeRFE_8001P board ini file ...\n");
     LimeRFE_8001P_LoadConfig(limerfe_8001p, rfeConfig.c_str());
+
+    printf("Sleep\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
 //---- Start Channel 1 -----//
     printf("Selecting channel 1\n");
@@ -153,11 +159,17 @@ int main(int argc, char** argv)
         printf("Error loading state.\n");
     printf("Finished\n");
 
+    printf("Sleep\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
     printf("Smart Tuning PLL...\n");
 
     result = LMS8_PLL_Smart_Tune(lms8_device, lo1); // Ricardai, reikia kad ta 4,9 verte kazkaip butu galima keisti, arba per faila arba per inputa bash scripte. Sita verte gali skirtis nuo channel 2 vertes
     if (result != LMS_SUCCESS)
         printf("Error locking. Result: %d\n", result);
+
+    printf("Sleep\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     isLocked = LMS8_Get_SPI_Reg_bits(lms8_device, PLL_LOCK);
     printf("Is Locked: %d\n", isLocked);
@@ -188,6 +200,9 @@ int main(int argc, char** argv)
     if (result != LMS_SUCCESS)
         printf("Error loading state.\n");
     printf("Finished\n");
+
+    printf("Sleep\n");
+    std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
     printf("Smart Tuning PLL...\n");
 
